@@ -22,7 +22,7 @@ public class Main {
      * Initializes the window
      */
     public Main() {
-        window = new Window("CALEB", 1000, 600);
+        window = new Window("CALEB", 800, 600);
     }
 
     /**

@@ -15,6 +15,7 @@ public class Window {
     private JPanel contentPane;
 
     private Field field;
+    private Info info;
 
     /**
      * Constructor for the window
@@ -34,6 +35,9 @@ public class Window {
 
         field = new Field(600, 600);
         contentPane.add(field.getCanvas());
+
+        info = new Info(200, 600);
+        contentPane.add(info.getPanel());
 
         frame.setContentPane(contentPane);
         frame.pack();
