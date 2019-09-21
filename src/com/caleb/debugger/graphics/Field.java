@@ -46,10 +46,13 @@ public class Field {
 
         //TODO: get image of field, initialize the BufferedImage, and render that instead
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        g.fillRect(0, 0, 600, 600);
 
         g.dispose();
         bs.show();
     }
 
+    public Canvas getCanvas() {
+        return canvas;
+    }
 }

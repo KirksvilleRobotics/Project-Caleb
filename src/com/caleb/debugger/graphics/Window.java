@@ -14,6 +14,8 @@ public class Window {
     private JFrame frame;
     private JPanel contentPane;
 
+    private Field field;
+
     /**
      * Constructor for the window
      *
@@ -26,9 +28,14 @@ public class Window {
     public Window(String title, int width, int height) {
         frame = new JFrame(title);
 
-        contentPane = (JPanel) frame.getContentPane();
+        contentPane = new JPanel();
         contentPane.setPreferredSize(new Dimension(width, height));
         contentPane.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
+
+        field = new Field(600, 600);
+        contentPane.add(field.getCanvas());
+
+        frame.setContentPane(contentPane);
         frame.pack();
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -45,6 +52,6 @@ public class Window {
      * loop each frame
      */
     public void render() {
-
+        field.render();
     }
 }
