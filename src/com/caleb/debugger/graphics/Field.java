@@ -36,7 +36,7 @@ public class Field {
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(width, height));
 
-        robot = new com.caleb.debugger.robot.Robot(0, 0, window.getInfo());
+        robot = new com.caleb.debugger.robot.Robot(50, -30, window.getInfo());
     }
 
     /**

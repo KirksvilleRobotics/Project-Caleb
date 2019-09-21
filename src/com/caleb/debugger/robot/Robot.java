@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
  * with a size equivalent to 18x18 inches with respect to a 600x600 pixel
  * screen / field
  */
-public class Robot {
+public class Robot implements Runnable {
 
     private Info info;
 
@@ -59,7 +59,34 @@ public class Robot {
         // rotVel is the rotation velocity in degrees per second
         rotVel = 0.0;
 
-        goToPosition(10.0, 10.0, 10.0);
+        new Thread(this, "Robot").start();
+
+    }
+
+    public void run() {
+        move(0.0, 50.0, 20.0);
+        waitForNextMovement();
+        move(-90.0, 0.0, 10.0);
+        waitForNextMovement();
+        move(0.0, -80.0, 20.0);
+    }
+
+    /**
+     * This method waits for a robot movement to be done which
+     * should be called in between move() or goToPosition() calls
+     *
+     * Note: This method should only be called on this thread,
+     * or a thread besides the main thread or else it will
+     * disrupt the window loop
+     */
+    private void waitForNextMovement() {
+        while(vx != 0.0 && vy != 0.0 && rotVel != 0.0) {
+            try {
+                Thread.sleep(10);
+            } catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -87,6 +114,7 @@ public class Robot {
      * This method draws the robot each frame based on the x and y
      * position. It converts the positions in inches to screen pixels
      * the draws the BufferedImage
+     *
      * Note: the position represents the center of the robot, not the
      * top left corner.
      *
@@ -113,7 +141,9 @@ public class Robot {
      * application. It isn't accurate enough to be trusted for
      * logging or real robot movement.
      *
-     * Note: it is recommended that the
+     * Note: This method should only be called on this thread,
+     * or a thread besides the main thread or else it will
+     * disrupt the window loop
      *
      * @param xDest x-coordinate destination for the robot on [-72, 72]
      * @param yDest y-coordinate destination for the robot on [-72, 72]
@@ -122,53 +152,77 @@ public class Robot {
      */
     public void goToPosition(double xDest, double yDest, double speed) {
         // Create a new thread so the position check loops don't interfere with the window loop
-        new Thread(() -> {
+        // Get the distance between the x's and the y's
+        double dx = xDest - x;
+        double dy = yDest - y;
 
-            // Get the distance between the x's and the y's
-            double dx = xDest - x;
-            double dy = yDest - y;
-
-            // Calculate the needed angle of rotation
-            double thetaDest = Math.toDegrees(Math.atan2(dx, dy));
-            rotVel = speed * 9; // 9 is width of the robot (in inches) / 2
-            // Check if the rotation is complete 1000 times per second
-            while(Math.round(theta * 10) / 10.0 != thetaDest) {
-                try {
-                    Thread.sleep(1);
-                } catch(InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            rotVel = 0.0;
-
-            // Leave some time in between rotation and movement
+        // Calculate the needed angle of rotation
+        double thetaDest = (double)Math.round(Math.toDegrees(Math.atan2(dx, dy)));
+        int rotDirection = 1;
+        if(thetaDest < 0) {
+            rotDirection = -1;
+        }
+        rotVel = speed * 9 * rotDirection; // 9 is width of the robot (in inches) / 2
+        // Check if the rotation is complete 1000 times per second
+        while(Math.round(theta * 10) / 10.0 != thetaDest) {
             try {
-                Thread.sleep(300);
+                Thread.sleep(1);
             } catch(InterruptedException e) {
                 e.printStackTrace();
             }
+        }
 
-            double distance = Math.sqrt((dx * dx) + (dy * dy));
+        rotVel = 0.0;
 
-            // Treat x and y velocity as a normalized vector and
-            // multiply it by speed
-            vx = (dx / distance) * speed;
-            vy = (dy / distance) * speed;
+        // Leave some time in between rotation and movement
+        try {
+            Thread.sleep(300);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
 
-            // check if the movement is done (to the nearest 10th) 1000 times per second
-            while(Math.round(x * 10) / 10.0 != xDest || Math.round(y * 10) / 10.0 != yDest) {
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        double distance = Math.sqrt((dx * dx) + (dy * dy));
+
+        // Treat x and y velocity as a normalized vector and
+        // multiply it by speed
+        vx = (dx / distance) * speed;
+        vy = (dy / distance) * speed;
+
+        // check if the movement is done (to the nearest 10th) 1000 times per second
+        while(Math.round(x * 10) / 10.0 != xDest || Math.round(y * 10) / 10.0 != yDest) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+        }
 
-            vx = 0.0;
-            vy = 0.0;
+        vx = 0.0;
+        vy = 0.0;
 
-        }, "GoToPos").start();
+        // sleep 300 millis to pause in between commands
+        try {
+            Thread.sleep(300);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This function does the exact same as goToPosition(),
+     * but it moves to a destination based on its current
+     * position
+     *
+     * Note: This method should only be called on this thread,
+     * or a thread besides the main thread or else it will
+     * disrupt the window loop
+     *
+     * @param dx number of inches to move horizontally
+     * @param dy number of inches to move vertically
+     * @param speed movement speed in inches per second
+     */
+    public void move(double dx, double dy, double speed) {
+        goToPosition((double)Math.round(x + dx), (double)Math.round(y + dy), speed);
     }
 
 }
