@@ -19,6 +19,8 @@ public class Field {
     private Canvas canvas;
     private BufferedImage fieldImg;
 
+    private com.caleb.debugger.robot.Robot robot;
+
     /**
      * Constructor for the field class
      *
@@ -31,6 +33,8 @@ public class Field {
         fieldImg = ImageLoader.loadImage("field.png");
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(width, height));
+
+        robot = new com.caleb.debugger.robot.Robot(60, 0);
     }
 
     /**
@@ -50,6 +54,7 @@ public class Field {
         //TODO: get image of field, initialize the BufferedImage, and render that instead
         g.setColor(Color.BLACK);
         g.drawImage(fieldImg, 0, 0, null);
+        robot.render(g);
 
         g.dispose();
         bs.show();
