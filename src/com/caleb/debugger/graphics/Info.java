@@ -22,6 +22,12 @@ public class Info {
      * @param height
      */
     public Info(int width, int height) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(width, height));
         panel.setLayout(null);

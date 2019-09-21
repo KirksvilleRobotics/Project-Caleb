@@ -40,11 +40,11 @@ public class Window {
         contentPane.add(info.getPanel());
 
         frame.setContentPane(contentPane);
-        frame.pack();
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
