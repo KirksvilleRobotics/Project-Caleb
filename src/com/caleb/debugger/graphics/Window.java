@@ -49,8 +49,13 @@ public class Window {
     }
 
     /**
-     * Render
-     *
+     * This method updates any logic within the window
+     */
+    public void update() {
+        field.update();
+    }
+
+    /**
      * This method updates the graphical display of the window and
      * of all its components. It is meant to be called within a
      * loop each frame

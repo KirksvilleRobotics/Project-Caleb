@@ -34,7 +34,15 @@ public class Field {
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(width, height));
 
-        robot = new com.caleb.debugger.robot.Robot(60, 0);
+        robot = new com.caleb.debugger.robot.Robot(0, 0);
+    }
+
+    /**
+     * This method gets called by the window 60 times per second
+     * to update any logic within the field, mostly the robot
+     */
+    public void update() {
+        robot.update();
     }
 
     /**
