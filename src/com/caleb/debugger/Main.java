@@ -39,6 +39,7 @@ public class Main {
         while(running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
+            lastTime = now;
             while(delta >= 0) {
                 update();
                 delta--;
@@ -54,7 +55,7 @@ public class Main {
      * Updates the window each frame
      */
     private void update() {
-
+        window.update();
     }
 
     /**
