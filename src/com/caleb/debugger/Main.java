@@ -35,6 +35,8 @@ public class Main {
         double tickRate = 60.0;
         double ns = 1000000000 / tickRate;
         double delta = 0.0;
+        final long initialTime = System.currentTimeMillis();
+        long timer = System.currentTimeMillis();
 
         while(running) {
             long now = System.nanoTime();
@@ -46,6 +48,10 @@ public class Main {
             }
             if(running) {
                 render();
+            }
+            if(System.currentTimeMillis() - timer >= 10) {
+                timer += 10;
+                window.updateElapsedTime(timer - initialTime);
             }
         }
         stop();

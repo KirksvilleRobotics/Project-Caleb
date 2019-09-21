@@ -34,6 +34,9 @@ public class Robot {
     private double vx;
     private double vy;
 
+    private double theta;
+    private double rotVel;
+
     /**
      * Constructor for the robot
      * This constructor sets the position of the robot, loads the
@@ -51,6 +54,10 @@ public class Robot {
         this.y = y;
         vx = 0.0;
         vy = 0.0;
+        // Theta and rotVel are both in degrees
+        theta = 0.0;
+        // rotVel is the rotation velocity in degrees per second
+        rotVel = 0.0;
     }
 
     /**
@@ -61,11 +68,17 @@ public class Robot {
         // since the robot updates 60 times per second, divide the per-second velocity by 60
         x += (vx / 60.0);
         y += (vy / 60.0);
+        theta += (rotVel / 60.0);
+        if(theta >= 360.0) {
+            theta -= 360.0;
+        }
         // round x and y to nearest hundredth
         double roundX = Math.round(x * 100) / 100.0;
         double roundY = Math.round(y * 100) / 100.0;
+        double roundTheta = Math.round(theta * 100) / 100.0;
         info.updateXPosition(Double.toString(roundX));
         info.updateYPosition(Double.toString(roundY));
+        info.updateTheta(Double.toString(roundTheta));
     }
 
     /**
@@ -83,7 +96,14 @@ public class Robot {
         // to change from center coordinates to top-left corner coordinates
         final double adjX = CoordinateUtils.posToPixel(x) - (WIDTH / 2.0);
         final double adjY = CoordinateUtils.posToPixel(y) - (HEIGHT / 2.0);
-        g.drawImage(robotImg, (int)adjX, (int)adjY, WIDTH, HEIGHT, null);
+
+        // Cast to graphics2d for rotation
+        Graphics2D g2 = (Graphics2D) g;
+        // Add half width and height back for g2.rotate() so it rotates around the center
+        g2.rotate(Math.toRadians(theta), adjX + (WIDTH / 2.0), adjY + (HEIGHT / 2.0));
+        g2.drawImage(robotImg, (int)adjX, (int)adjY, WIDTH, HEIGHT, null);
+        // Rotate back so it doesn't screw up other rendering, only rotate to draw the robot
+        g2.rotate(Math.toRadians(-theta), adjX, adjY);
     }
 
 }

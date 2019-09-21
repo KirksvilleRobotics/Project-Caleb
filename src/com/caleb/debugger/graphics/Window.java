@@ -55,6 +55,11 @@ public class Window {
         field.update();
     }
 
+    public void updateElapsedTime(long elapsedTime) {
+        double timeDouble = (elapsedTime) / 1000.0;
+        info.updateTime(Double.toString(timeDouble));
+    }
+
     /**
      * This method updates the graphical display of the window and
      * of all its components. It is meant to be called within a
