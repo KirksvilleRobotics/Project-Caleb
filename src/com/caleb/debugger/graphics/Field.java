@@ -28,13 +28,15 @@ public class Field {
      * BufferedImage to draw the field
      * @param width field width in pixels
      * @param height field height in pixels
+     * @param window instance of Window class just used to pass info
+     *               into the robot class
      */
-    public Field(int width, int height) {
+    public Field(int width, int height, Window window) {
         fieldImg = ImageLoader.loadImage("field.png");
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(width, height));
 
-        robot = new com.caleb.debugger.robot.Robot(0, 0);
+        robot = new com.caleb.debugger.robot.Robot(0, 0, window.getInfo());
     }
 
     /**
@@ -59,7 +61,6 @@ public class Field {
 
         Graphics g = bs.getDrawGraphics();
 
-        //TODO: get image of field, initialize the BufferedImage, and render that instead
         g.setColor(Color.BLACK);
         g.drawImage(fieldImg, 0, 0, null);
         robot.render(g);

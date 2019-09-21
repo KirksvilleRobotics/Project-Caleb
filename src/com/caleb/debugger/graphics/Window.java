@@ -33,10 +33,10 @@ public class Window {
         contentPane.setPreferredSize(new Dimension(width, height));
         contentPane.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
 
-        field = new Field(600, 600);
-        contentPane.add(field.getCanvas());
-
         info = new Info(200, 600);
+        field = new Field(600, 600, this);
+
+        contentPane.add(field.getCanvas());
         contentPane.add(info.getPanel());
 
         frame.setContentPane(contentPane);
@@ -62,5 +62,9 @@ public class Window {
      */
     public void render() {
         field.render();
+    }
+
+    public Info getInfo() {
+        return info;
     }
 }

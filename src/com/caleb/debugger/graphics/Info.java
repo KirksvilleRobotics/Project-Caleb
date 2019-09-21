@@ -59,7 +59,7 @@ public class Info {
         xPosition = new JLabel("12.0");
         xPosition.setBounds(125, 25, 50, 25);
         xPosition.setVerticalAlignment(SwingConstants.TOP);
-        xPosition.setHorizontalAlignment(SwingConstants.RIGHT);
+        xPosition.setHorizontalAlignment(SwingConstants.LEFT);
         panel.add(xPosition);
 
         yPosition = new JLabel();

@@ -1,5 +1,6 @@
 package com.caleb.debugger.robot;
 
+import com.caleb.debugger.graphics.Info;
 import com.caleb.debugger.utils.CoordinateUtils;
 import com.caleb.debugger.utils.ImageLoader;
 
@@ -16,6 +17,8 @@ import java.awt.image.BufferedImage;
  * screen / field
  */
 public class Robot {
+
+    private Info info;
 
     // 75 pixels = 18 inches for a 600x600 pixel field
     private static final int WIDTH = 75;
@@ -38,9 +41,12 @@ public class Robot {
      * velocities to 0
      * @param x horizontal position of the robot in inches from [-72, 72]
      * @param y vertical position of the robot in inches from [-72, 72]
+     * @param info instance of Info needed to update position on
+     *             info bar
      */
-    public Robot(double x, double y) {
+    public Robot(double x, double y, Info info) {
         robotImg = ImageLoader.loadImage("robot.png");
+        this.info = info;
         this.x = x;
         this.y = y;
         vx = 0.0;
@@ -55,6 +61,11 @@ public class Robot {
         // since the robot updates 60 times per second, divide the per-second velocity by 60
         x += (vx / 60.0);
         y += (vy / 60.0);
+        // round x and y to nearest hundredth
+        double roundX = Math.round(x * 100) / 100.0;
+        double roundY = Math.round(y * 100) / 100.0;
+        info.updateXPosition(Double.toString(roundX));
+        info.updateYPosition(Double.toString(roundY));
     }
 
     /**
