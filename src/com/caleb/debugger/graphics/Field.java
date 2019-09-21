@@ -1,5 +1,7 @@
 package com.caleb.debugger.graphics;
 
+import com.caleb.debugger.utils.ImageLoader;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -26,6 +28,7 @@ public class Field {
      * @param height field height in pixels
      */
     public Field(int width, int height) {
+        fieldImg = ImageLoader.loadImage("field.png");
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(width, height));
     }
@@ -46,7 +49,7 @@ public class Field {
 
         //TODO: get image of field, initialize the BufferedImage, and render that instead
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0, 600, 600);
+        g.drawImage(fieldImg, 0, 0, null);
 
         g.dispose();
         bs.show();
