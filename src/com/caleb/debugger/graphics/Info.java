@@ -3,10 +3,18 @@ package com.caleb.debugger.graphics;
 import javax.swing.*;
 import java.awt.*;
 
-//TODO JavaDoc
+//TODO Get rid of magic numbers
 
 /**
+ * Info
  *
+ * This class displays info relating to the robot's current position
+ * and time that has elapsed. It uses JPanels and JLabels to achieve this.
+ * Data displayed:
+ * - RobotX
+ * - RobotY
+ * - RobotTheta
+ * - TimeElapsed
  */
 public class Info {
     private JPanel panel;
@@ -17,9 +25,12 @@ public class Info {
     private JLabel time;
 
     /**
+     * This method sets up the JPanel and JLabels for the display.
+     * It creates labels to store descriptors and data for the
+     * four stored values.
      *
-     * @param width
-     * @param height
+     * @param width width of the Info panel
+     * @param height height of the Info panel
      */
     public Info(int width, int height) {
         try {
@@ -82,11 +93,12 @@ public class Info {
     }
 
     /**
+     * This method updates all four of the displayed values
      *
-     * @param robotX
-     * @param robotY
-     * @param robotTheta
-     * @param timeElapsed
+     * @param robotX current x-coordinate of the robot
+     * @param robotY current y-coordinate of the robot
+     * @param robotTheta current theta heading of the robot
+     * @param timeElapsed current time elapsed since the start of debugging
      */
     public void updateData(String robotX, String robotY, String robotTheta, String timeElapsed) {
         xPosition.setText(robotX);
@@ -96,40 +108,45 @@ public class Info {
     }
 
     /**
+     * This method updates the x-position display
      *
-     * @param robotX
+     * @param robotX current x-coordinate of the robot
      */
     public void updateXPosition(String robotX) {
         xPosition.setText(robotX);
     }
 
     /**
+     * This method updates the y-position display
      *
-     * @param robotY
+     * @param robotY current y-coordinate of the robot
      */
     public void updateYPosition(String robotY) {
         yPosition.setText(robotY);
     }
 
     /**
+     * This method updates the theta display
      *
-     * @param robotTheta
+     * @param robotTheta current theta heading of the robot
      */
     public void updateTheta(String robotTheta) {
         theta.setText(robotTheta);
     }
 
     /**
+     * This method update the elapsed time display
      *
-     * @param timeElapsed
+     * @param timeElapsed current time elapsed since the start of debugging
      */
     public void updateTime(String timeElapsed) {
         time.setText(timeElapsed);
     }
 
     /**
+     * This method returns the JPanel that everything is built on
      *
-     * @return
+     * @return the JPanel object of the info bar
      */
     public JPanel getPanel() {
         return panel;
