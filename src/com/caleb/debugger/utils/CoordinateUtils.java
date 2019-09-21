@@ -21,9 +21,13 @@ public class CoordinateUtils {
      * in pixels to a field position in inches
      *
      * @param pixelPosition screen position in pixels
+     * @param negate determine whether or not to negate the field
+     *               position before calculation, only negate if
+     *               it is a y-value
      * @return position in inches for the field coordinate system [-72, 72]
      */
-    public static double pixelToPos(double pixelPosition) {
+    public static double pixelToPos(double pixelPosition, boolean negate) {
+        if(negate) pixelPosition = -pixelPosition;
         return (MAX_POS * pixelPosition) / MAX_PIXEL - (MAX_PIXEL / 2);
     }
 
@@ -32,10 +36,15 @@ public class CoordinateUtils {
      * it converts a field position in inches to a screen position
      * in pixels for drawing
      *
-     * @param fieldPosition position in inches for the field coordinate system [-72, 72]
+     * @param fieldPosition position in inches for the field
+     *                      coordinate system [-72, 72]
+     * @param negate determine whether or not to negate the field
+     *               position before calculation, only negate if
+     *               it is a y-value
      * @return screen position in pixels
      */
-    public static double posToPixel(double fieldPosition) {
+    public static double posToPixel(double fieldPosition, boolean negate) {
+        if(negate) fieldPosition = -fieldPosition;
         fieldPosition += 72.0; // convert range of [-72, 72] to [0, 144]
         return (MAX_PIXEL * fieldPosition) / MAX_POS;
     }

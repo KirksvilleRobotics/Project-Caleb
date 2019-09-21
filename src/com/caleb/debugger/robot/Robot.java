@@ -58,6 +58,8 @@ public class Robot {
         theta = 0.0;
         // rotVel is the rotation velocity in degrees per second
         rotVel = 0.0;
+
+        goToPosition(10.0, 10.0, 10.0);
     }
 
     /**
@@ -73,9 +75,9 @@ public class Robot {
             theta -= 360.0;
         }
         // round x and y to nearest hundredth
-        double roundX = Math.round(x * 100) / 100.0;
-        double roundY = Math.round(y * 100) / 100.0;
-        double roundTheta = Math.round(theta * 100) / 100.0;
+        double roundX = Math.round(x * 10) / 10.0;
+        double roundY = Math.round(y * 10) / 10.0;
+        double roundTheta = Math.round(theta * 10) / 10.0;
         info.updateXPosition(Double.toString(roundX));
         info.updateYPosition(Double.toString(roundY));
         info.updateTheta(Double.toString(roundTheta));
@@ -94,8 +96,8 @@ public class Robot {
     public void render(Graphics g) {
         // convert positions to pixel position, and subtract half of the width/height
         // to change from center coordinates to top-left corner coordinates
-        final double adjX = CoordinateUtils.posToPixel(x) - (WIDTH / 2.0);
-        final double adjY = CoordinateUtils.posToPixel(y) - (HEIGHT / 2.0);
+        final double adjX = CoordinateUtils.posToPixel(x, false) - (WIDTH / 2.0);
+        final double adjY = CoordinateUtils.posToPixel(y, true) - (HEIGHT / 2.0);
 
         // Cast to graphics2d for rotation
         Graphics2D g2 = (Graphics2D) g;
@@ -104,6 +106,69 @@ public class Robot {
         g2.drawImage(robotImg, (int)adjX, (int)adjY, WIDTH, HEIGHT, null);
         // Rotate back so it doesn't screw up other rendering, only rotate to draw the robot
         g2.rotate(Math.toRadians(-theta), adjX, adjY);
+    }
+
+    /**
+     * This function is mainly just for simulation of this
+     * application. It isn't accurate enough to be trusted for
+     * logging or real robot movement.
+     *
+     * Note: it is recommended that the
+     *
+     * @param xDest x-coordinate destination for the robot on [-72, 72]
+     * @param yDest y-coordinate destination for the robot on [-72, 72]
+     * @param speed speed for robot movement, and rotation in
+     *              inches per second
+     */
+    public void goToPosition(double xDest, double yDest, double speed) {
+        // Create a new thread so the position check loops don't interfere with the window loop
+        new Thread(() -> {
+
+            // Get the distance between the x's and the y's
+            double dx = xDest - x;
+            double dy = yDest - y;
+
+            // Calculate the needed angle of rotation
+            double thetaDest = Math.toDegrees(Math.atan2(dx, dy));
+            rotVel = speed * 9; // 9 is width of the robot (in inches) / 2
+            // Check if the rotation is complete 1000 times per second
+            while(Math.round(theta * 10) / 10.0 != thetaDest) {
+                try {
+                    Thread.sleep(1);
+                } catch(InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            rotVel = 0.0;
+
+            // Leave some time in between rotation and movement
+            try {
+                Thread.sleep(300);
+            } catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            double distance = Math.sqrt((dx * dx) + (dy * dy));
+
+            // Treat x and y velocity as a normalized vector and
+            // multiply it by speed
+            vx = (dx / distance) * speed;
+            vy = (dy / distance) * speed;
+
+            // check if the movement is done (to the nearest 10th) 1000 times per second
+            while(Math.round(x * 10) / 10.0 != xDest || Math.round(y * 10) / 10.0 != yDest) {
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            vx = 0.0;
+            vy = 0.0;
+
+        }, "GoToPos").start();
     }
 
 }
