@@ -14,6 +14,8 @@ import java.io.IOException;
 
 public class ImageLoader {
 
+    private ImageLoader() {}
+
     /**
      * Loads a BufferedImage from a given path.
      *
