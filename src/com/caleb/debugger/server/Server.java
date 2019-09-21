@@ -51,8 +51,6 @@ public class Server implements Runnable {
      * object.
      */
     private void receive() {
-        //TODO pass deserialized data to the Robot Class
-        //deserializeData(robotData);
         Thread receive = new Thread(() -> {
             while (running) {
                 byte[] data = new byte[24];

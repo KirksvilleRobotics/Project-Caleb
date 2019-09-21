@@ -1,7 +1,5 @@
 package com.caleb.debugger.robot;
 
-//TODO JavaDoc
-
 /**
  * RobotData
  *
