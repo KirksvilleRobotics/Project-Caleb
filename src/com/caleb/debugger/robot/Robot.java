@@ -225,4 +225,11 @@ public class Robot implements Runnable {
         goToPosition((double)Math.round(x + dx), (double)Math.round(y + dy), speed);
     }
 
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
 }

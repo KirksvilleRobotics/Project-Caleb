@@ -64,6 +64,9 @@ public class Server implements Runnable {
 
                 //TODO pass deserialized data to the Robot Class
                 RobotData robotData = deserializeData(packet.getData());
+                System.out.println(robotData.getX());
+                System.out.println(robotData.getY());
+                System.out.println(robotData.getTheta());
             }
         }, "Receive");
         receive.start();

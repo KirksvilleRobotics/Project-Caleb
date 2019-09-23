@@ -1,10 +1,12 @@
 package com.caleb.debugger.graphics;
 
+import com.caleb.debugger.utils.CoordinateUtils;
 import com.caleb.debugger.utils.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 
 /**
  * Field
@@ -19,6 +21,10 @@ public class Field {
     private Canvas canvas;
     private BufferedImage fieldImg;
 
+    LinkedList<LocationMarker> pastLocations;
+
+    private int cycle;
+
     private com.caleb.debugger.robot.Robot robot;
 
     /**
@@ -32,6 +38,8 @@ public class Field {
      *               into the robot class
      */
     public Field(int width, int height, Window window) {
+        cycle = 0;
+        pastLocations = new LinkedList<>();
         fieldImg = ImageLoader.loadImage("field.png");
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(width, height));
@@ -44,6 +52,16 @@ public class Field {
      * to update any logic within the field, mostly the robot
      */
     public void update() {
+        cycle++;
+        for(LocationMarker marker : pastLocations) {
+            marker.update();
+        }
+        if(cycle == 2) {
+            cycle = 0;
+            pastLocations.add(new LocationMarker(
+                    (int) CoordinateUtils.posToPixel(robot.getX(), false),
+                    (int) CoordinateUtils.posToPixel(robot.getY(), true)));
+        }
         robot.update();
     }
 
@@ -63,6 +81,9 @@ public class Field {
 
         g.setColor(Color.BLACK);
         g.drawImage(fieldImg, 0, 0, null);
+        for(LocationMarker marker : pastLocations) {
+            marker.render(g);
+        }
         robot.render(g);
 
         g.dispose();
