@@ -23,9 +23,10 @@ public class Field {
 
     LinkedList<LocationMarker> pastLocations;
 
-    private int cycle;
+    private int cycle = 0;
 
     private com.caleb.debugger.robot.Robot robot;
+
 
     /**
      * Constructor for the field class
@@ -45,6 +46,7 @@ public class Field {
         canvas.setPreferredSize(new Dimension(width, height));
 
         robot = new com.caleb.debugger.robot.Robot(50, -30, window.getInfo());
+        pastLocations = new LinkedList<>();
     }
 
     /**
@@ -56,7 +58,7 @@ public class Field {
         for(LocationMarker marker : pastLocations) {
             marker.update();
         }
-        if(cycle == 2) {
+        if(cycle == 3) {
             cycle = 0;
             pastLocations.add(new LocationMarker(
                     (int) CoordinateUtils.posToPixel(robot.getX(), false),

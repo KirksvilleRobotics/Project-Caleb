@@ -1,6 +1,7 @@
 package com.caleb.debugger.graphics;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 
 //TODO Get rid of magic numbers
@@ -41,6 +42,7 @@ public class Info {
 
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(width, height));
+        panel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3));
         panel.setLayout(null);
 
         JLabel xLabel = new JLabel("Robot X: ");

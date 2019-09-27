@@ -39,7 +39,7 @@ public class LocationMarker {
 
     public void render(Graphics g) {
         g.setColor(new Color(red, green, blue));
-        g.fillArc(x, y, 5, 5, 0, 360);
+        g.fillArc(x, y, 10, 10, 0, 360);
     }
 
 }
