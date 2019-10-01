@@ -1,5 +1,6 @@
 package com.caleb.debugger.robot;
 
+import com.caleb.debugger.Main;
 import com.caleb.debugger.graphics.Info;
 import com.caleb.debugger.utils.CoordinateUtils;
 import com.caleb.debugger.utils.ImageLoader;
@@ -66,9 +67,13 @@ public class Robot implements Runnable {
     public void run() {
         move(0.0, 50.0, 20.0);
         waitForNextMovement();
-        move(-90.0, 0.0, 10.0);
+        move(-90.0, 0.0, 20.0);
         waitForNextMovement();
         move(0.0, -80.0, 20.0);
+        waitForNextMovement();
+        move(100.0, 100.0, 20.0);
+        waitForNextMovement();
+        move(-20, -80, 20.0);
     }
 
     /**
@@ -95,9 +100,9 @@ public class Robot implements Runnable {
      */
     public void update() {
         // since the robot updates 60 times per second, divide the per-second velocity by 60
-        x += (vx / 60.0);
-        y += (vy / 60.0);
-        theta += (rotVel / 60.0);
+        x += (vx / Main.getTickRate());
+        y += (vy / Main.getTickRate());
+        theta += (rotVel / Main.getTickRate());
         if(theta >= 360.0) {
             theta -= 360.0;
         }
@@ -158,11 +163,21 @@ public class Robot implements Runnable {
 
         // Calculate the needed angle of rotation
         double thetaDest = (double)Math.round(Math.toDegrees(Math.atan2(dx, dy)));
-        int rotDirection = 1;
-        if(thetaDest < 0) {
-            rotDirection = -1;
+        double dTheta = thetaDest - theta;
+
+        if(dTheta > 180) {
+            thetaDest -= 360;
+        } else if(dTheta < -180) {
+            thetaDest += 360;
         }
-        rotVel = speed * 9 * rotDirection; // 9 is width of the robot (in inches) / 2
+        System.out.println(thetaDest);
+        System.out.println(theta);
+        int direction = 1;
+        if(thetaDest < theta) {
+            direction = -1;
+        }
+
+        rotVel = speed * 9 * direction; // 9 is width of the robot (in inches) / 2
         // Check if the rotation is complete 1000 times per second
         while(Math.round(theta * 10) / 10.0 != thetaDest) {
             try {
@@ -187,6 +202,8 @@ public class Robot implements Runnable {
         // multiply it by speed
         vx = (dx / distance) * speed;
         vy = (dy / distance) * speed;
+        System.out.println("Target x velocity: " + vx);
+        System.out.println("Target y velocity: " + vy);
 
         // check if the movement is done (to the nearest 10th) 1000 times per second
         while(Math.round(x * 10) / 10.0 != xDest || Math.round(y * 10) / 10.0 != yDest) {
