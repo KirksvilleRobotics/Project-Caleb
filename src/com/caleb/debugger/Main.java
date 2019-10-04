@@ -1,5 +1,6 @@
 package com.caleb.debugger;
 
+import com.caleb.bluetooth.BluetoothServer;
 import com.caleb.debugger.graphics.Window;
 
 /**
@@ -14,6 +15,7 @@ public class Main {
     private static final int TICK_RATE = 60;
 
     private Window window;
+    private BluetoothServer bluetoothServer;
 
     private Thread thread;
     private boolean running;
@@ -25,6 +27,7 @@ public class Main {
      */
     public Main() {
         window = new Window("CALEB", 800, 600);
+        bluetoothServer = new BluetoothServer();
     }
 
     /**
@@ -33,6 +36,7 @@ public class Main {
      * most of the application's logic within it
      */
     public void run() {
+        bluetoothServer.start();
         long lastTime = System.nanoTime();
         double ns = 1000000000.0 / TICK_RATE;
         double delta = 0.0;
@@ -56,6 +60,7 @@ public class Main {
             }
         }
         stop();
+        bluetoothServer.stop();
     }
 
     /**
