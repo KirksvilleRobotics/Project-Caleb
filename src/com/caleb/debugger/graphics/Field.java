@@ -61,8 +61,8 @@ public class Field {
         if(cycle == 3) {
             cycle = 0;
             pastLocations.add(new LocationMarker(
-                    (int) CoordinateUtils.posToPixel(robot.getX(), false),
-                    (int) CoordinateUtils.posToPixel(robot.getY(), true)));
+                    CoordinateUtils.posToPixel(robot.getX(), false),
+                    CoordinateUtils.posToPixel(robot.getY(), true)));
         }
         robot.update();
     }

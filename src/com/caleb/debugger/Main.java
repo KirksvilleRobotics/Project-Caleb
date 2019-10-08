@@ -49,6 +49,7 @@ public class Main {
             lastTime = now;
             while(delta >= 0) {
                 update();
+                window.updateElapsedTime(timer - initialTime);
                 delta--;
             }
             if(running) {
@@ -56,7 +57,6 @@ public class Main {
             }
             if(System.currentTimeMillis() - timer >= 10) {
                 timer += 10;
-                window.updateElapsedTime(timer - initialTime);
             }
         }
         stop();

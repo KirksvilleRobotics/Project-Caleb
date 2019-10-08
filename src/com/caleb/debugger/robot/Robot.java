@@ -4,6 +4,7 @@ import com.caleb.debugger.Main;
 import com.caleb.debugger.graphics.Info;
 import com.caleb.debugger.utils.CoordinateUtils;
 import com.caleb.debugger.utils.ImageLoader;
+import com.caleb.logging.LogFileOut;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

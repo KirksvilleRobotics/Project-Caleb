@@ -9,8 +9,8 @@ package com.caleb.debugger.utils;
  */
 public class CoordinateUtils {
 
-    private static final double MAX_POS = 144;
-    private static final double MAX_PIXEL = 600;
+    private static final int MAX_POS = 144;
+    private static final int MAX_PIXEL = 600;
 
 
     private CoordinateUtils(){
@@ -26,9 +26,9 @@ public class CoordinateUtils {
      *               it is a y-value
      * @return position in inches for the field coordinate system [-72, 72]
      */
-    public static double pixelToPos(double pixelPosition, boolean negate) {
+    public static double pixelToPos(int pixelPosition, boolean negate) {
         if(negate) pixelPosition = -pixelPosition;
-        return (MAX_POS * pixelPosition) / MAX_PIXEL - (MAX_PIXEL / 2);
+        return (double)(MAX_POS * pixelPosition) / MAX_PIXEL - (MAX_PIXEL / 2.0);
     }
 
     /**
@@ -43,10 +43,11 @@ public class CoordinateUtils {
      *               it is a y-value
      * @return screen position in pixels
      */
-    public static double posToPixel(double fieldPosition, boolean negate) {
+    public static int posToPixel(double fieldPosition, boolean negate) {
         if(negate) fieldPosition = -fieldPosition;
         fieldPosition += 72.0; // convert range of [-72, 72] to [0, 144]
-        return (MAX_PIXEL * fieldPosition) / MAX_POS;
+        int roundedFieldPosition = (int) Math.round(fieldPosition);
+        return (MAX_PIXEL * roundedFieldPosition) / MAX_POS;
     }
 
 }

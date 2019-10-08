@@ -1,5 +1,7 @@
 package com.caleb.debugger.graphics;
 
+import com.caleb.logging.LogFileOut;
+
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
@@ -18,6 +20,9 @@ import java.awt.*;
  * - TimeElapsed
  */
 public class Info {
+
+    private LogFileOut logger;
+
     private JPanel panel;
 
     private JLabel xPosition;
@@ -34,6 +39,7 @@ public class Info {
      * @param height height of the Info panel
      */
     public Info(int width, int height) {
+        logger = new LogFileOut();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch(Exception e) {
@@ -143,6 +149,11 @@ public class Info {
      */
     public void updateTime(String timeElapsed) {
         time.setText(timeElapsed);
+        double xDouble = Double.parseDouble(xPosition.getText());
+        double yDouble = Double.parseDouble(yPosition.getText());
+        double thetaDouble = Double.parseDouble(theta.getText());
+        double thetaTime = Double.parseDouble(time.getText());
+        logger.addEntry(xDouble, yDouble, thetaDouble, thetaTime);
     }
 
     /**
