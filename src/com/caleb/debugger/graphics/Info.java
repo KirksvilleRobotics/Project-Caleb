@@ -21,7 +21,7 @@ import java.awt.*;
  */
 public class Info {
 
-    private LogFileOut logger;
+    //private LogFileOut logger;
 
     private JPanel panel;
 
@@ -39,7 +39,7 @@ public class Info {
      * @param height height of the Info panel
      */
     public Info(int width, int height) {
-        logger = new LogFileOut();
+        //logger = new LogFileOut();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch(Exception e) {
@@ -153,7 +153,7 @@ public class Info {
         double yDouble = Double.parseDouble(yPosition.getText());
         double thetaDouble = Double.parseDouble(theta.getText());
         double thetaTime = Double.parseDouble(time.getText());
-        logger.addEntry(xDouble, yDouble, thetaDouble, thetaTime);
+        //logger.addEntry(xDouble, yDouble, thetaDouble, thetaTime);
     }
 
     /**

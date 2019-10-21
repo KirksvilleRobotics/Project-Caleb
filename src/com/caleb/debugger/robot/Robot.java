@@ -66,7 +66,7 @@ public class Robot implements Runnable {
     }
 
     public void run() {
-        move(0.0, 50.0, 20.0);
+        /*move(0.0, 50.0, 20.0);
         waitForNextMovement();
         move(-90.0, 0.0, 20.0);
         waitForNextMovement();
@@ -74,7 +74,7 @@ public class Robot implements Runnable {
         waitForNextMovement();
         move(100.0, 100.0, 20.0);
         waitForNextMovement();
-        move(-20, -80, 20.0);
+        move(-20, -80, 20.0);*/
     }
 
     /**
@@ -249,5 +249,17 @@ public class Robot implements Runnable {
 
     public double getY() {
         return y;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void setTheta(double theta) {
+        this.theta = theta;
     }
 }

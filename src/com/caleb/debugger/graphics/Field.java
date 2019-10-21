@@ -1,7 +1,9 @@
 package com.caleb.debugger.graphics;
 
+import com.caleb.debugger.robot.Robot;
 import com.caleb.debugger.utils.CoordinateUtils;
 import com.caleb.debugger.utils.ImageLoader;
+import com.caleb.logging.LogFileIn;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -20,6 +22,8 @@ public class Field {
 
     private Canvas canvas;
     private BufferedImage fieldImg;
+
+    private LogFileIn logger;
 
     LinkedList<LocationMarker> pastLocations;
 
@@ -47,6 +51,7 @@ public class Field {
 
         robot = new com.caleb.debugger.robot.Robot(50, -30, window.getInfo());
         pastLocations = new LinkedList<>();
+        logger = new LogFileIn("2019 10 21 17 36.log");
     }
 
     /**
@@ -65,6 +70,10 @@ public class Field {
                     CoordinateUtils.posToPixel(robot.getY(), true)));
         }
         robot.update();
+        logger.update();
+        robot.setX(logger.getX());
+        robot.setY(logger.getY());
+        robot.setTheta(logger.getAngle());
     }
 
     /**

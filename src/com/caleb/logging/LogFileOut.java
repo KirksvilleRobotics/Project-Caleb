@@ -16,7 +16,7 @@ public class LogFileOut {
         LocalDateTime now = LocalDateTime.now();
         System.out.println(dtf.format(now));
         try {
-            this.writer = new BufferedWriter(new FileWriter(new File(dtf.format(now) + ".txt")));
+            this.writer = new BufferedWriter(new FileWriter(new File(dtf.format(now) + ".log")));
         } catch (IOException e) {
             e.printStackTrace();
         }
